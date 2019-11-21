@@ -9,6 +9,9 @@ from os import urandom
 import logging
 from logging.handlers import RotatingFileHandler
 from logging.config import dictConfig
+from flask_pymongo import PyMongo
+from flask_bcrypt import Bcrypt
+
 
 dictConfig({
     'version': 1,
@@ -27,6 +30,12 @@ dictConfig({
 })
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/flaskdb"
+mongo = PyMongo(app)
+bcrypt = Bcrypt(app)
+salt = "venkatesh"
+
+
 
 random_bytes = urandom(64)
 secret_key = b64encode(random_bytes).decode('utf-8')
@@ -34,10 +43,19 @@ app.config['SECRET_KEY'] = secret_key
 
 # Enable blacklisting and specify what kind of tokens to check
 # against the blacklist
-app.config['JWT_SECRET_KEY'] = 'super-secret'  # Change this!
+app.config['JWT_SECRET_KEY'] = secret_key  # Change this!
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 jwt = JWTManager(app)
+blacklist = set()
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    app.logger.info("jti %s"%jti)
+    app.logger.info(blacklist)
+    return jti in blacklist
+
 
 from bluep.modulo1 import modulo1_blueprint
 from bluep.modulo2 import modulo2_blueprint
