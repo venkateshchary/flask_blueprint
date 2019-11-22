@@ -1,6 +1,5 @@
 from flask import Blueprint,request,redirect,jsonify
 import hashlib
-
 from bluep.headers import *
 from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_identity,
@@ -65,7 +64,6 @@ def register():
         app.logger.error("==========>user name is already present")
         msg="user already exist"
         return jsonify(message=msg), 200
-
 
 
 @login_blueprint.route('/protected', methods=['GET'])
