@@ -84,3 +84,20 @@ def logout():
     jti = get_raw_jwt()['jti']
     blacklist.add(jti)
     return jsonify({"msg": "Successfully logged out"}), 200
+
+
+@login_blueprint.route('/userdelete/<string:username>',methods=['DELETE'])
+def delete_user(username):
+    username_from_body = request.json.get('username', None)
+    app.logger.info(username)
+    if not username:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    d = mongo.db.users.find({"username":username}).limit(1)
+    result = None
+    for i in d:
+        result= i
+    if result !=None:
+        d_user = mongo.db.users.remove({"username":username})
+        app.logger.info("deleted user is :%s"%d_user)
+        return jsonify({"message":"user is deleted "}),200
+    return jsonify({"message":"no user found with the username"}),200
