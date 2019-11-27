@@ -1,6 +1,7 @@
 from flask import Blueprint,request,redirect,jsonify
 import hashlib
 from bluep.headers import *
+import datetime
 from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_identity,
     create_access_token, create_refresh_token,
@@ -34,8 +35,9 @@ def login():
     if not password:
         return jsonify({"msg": "Missing password parameter"}), 400
     user = mongo.db.users.find_one_or_404({"username":username,"password":password_generate(password)})
+    expires = datetime.timedelta(minutes=5)
     ret = {
-        'access_token': create_access_token(identity=username),
+        'access_token': create_access_token(identity=username,expires_delta=expires),
         'refresh_token': create_refresh_token(identity=username)
     }
     return jsonify(ret), 200

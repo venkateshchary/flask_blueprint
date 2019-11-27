@@ -8,4 +8,4 @@ def index():
     print(app.config['SECRET_KEY'])
     app.logger.error('An error occurred')
     app.logger.info('request hit the api module1')
-    return 'modulo1'
+    return 'i am in home.'

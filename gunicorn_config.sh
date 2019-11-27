@@ -1,0 +1,1 @@
+gunicorn -D --workers=3 --bind=localhost:5000 --log-file=flasklog.log --pid=gunicorn.pid --log-level=debug run:app

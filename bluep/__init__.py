@@ -32,6 +32,9 @@ dictConfig({
 })
 
 app = Flask(__name__)
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
+
+
 @app.route('/static/<path:path>')
 def send_static(path):
     return send_from_directory('static',path)
