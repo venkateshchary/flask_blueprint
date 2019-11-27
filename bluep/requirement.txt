@@ -1,18 +1,20 @@
+bcrypt==3.1.7
 cffi==1.13.2
 Click==7.0
-cryptography==2.8
 Flask==1.1.1
-itsdangerous==1.1.0
-Jinja2==2.10.3
-jwt==0.6.1
-MarkupSafe==1.1.1
+Flask-Bcrypt==0.7.1
 Flask-JWT-Extended==3.24.1
-pip==19.2.3
+Flask-PyMongo==2.3.0
+flask-swagger-ui==3.20.9
+gunicorn==20.0.4
+itsdangerous==1.1.0
+Jinja2 ==2.10.3
+MarkupSafe==1.1.1
+pip==9.0.1
+pkg-resources==0.0.0
 pycparser==2.19
-Flask-PyMongo ==2.3.0
-setuptools==41.2.0
+PyJWT==1.7.1
+pymongo==3.9.0
+setuptools==39.0.1
 six==1.13.0
 Werkzeug==0.16.0
-Flask-JWT==0.3.2
-flask-bcrypt==3.1.7
-flask-swagger-ui==3.20.9
